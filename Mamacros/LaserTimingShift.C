@@ -1,0 +1,104 @@
+#include "string.h"
+#include "TChain.h"
+#include "TH1.h"
+#include "TFile.h"
+#include "TCanvas.h"
+#include "TPad.h"
+#include "TLegend.h"
+#include "TMath.h"
+#include"Riostream.h"
+
+#include "TProfile2D.h"
+
+
+  using namespace std;
+
+
+  void LaserTimingShift(char *fileA, char *fileB)
+{
+
+std::cout << " File Read is:" << fileA << "for Laser Run A" << std::endl;
+  std::cout << "File Read is:" << fileB << "for Laser Run B " << std::endl;
+  TFile * fA =new TFile(fileA);
+
+  TFile *fB = new TFile(fileB);
+
+
+
+  
+ //  Hist To calculate  Timing Diff!
+
+  // Run A
+ TProfile2D *CrysMeanTimeDistEBRunA = (TProfile2D)fA->Get("LaserTiming/FedAvgTimingEB");
+ // TProfile2D *CrysMeanTimeDistEEPlusRunA = (TProfile2D)f11->Get("");
+ // TProfile2D *CrysMeanTimeDistEEMinusRunA = (TProfile2D)f11->Get("");
+
+ //Run B
+ TProfile2D *CrysMeanTimeDistEBRunB = (TProfile2D)fB->Get("LaserTiming/FedAvgTimingEB");
+ // TProfile2D *CrysMeanTimeDistEEPlusRunB = (TProfile2D)f10->Get("");
+ // TProfile2D *CrysMeanTimeDistEEMinusRunB = (TProfile2D)f10->Get("");
+
+
+        
+ std::cout << "CrysMeanTimeDistEBRunA  is:" 
+          << CrysMeanTimeDistEBRunA->GetName() << " and has " 
+          << CrysMeanTimeDistEBRunA ->GetEntries() << " entries;" 
+          << std::endl;
+std::cout << "CrysMeanTimeDistEBRunB  is: " 
+          << CrysMeanTimeDistEBRunB ->GetName() << " and has " 
+          << CrysMeanTimeDistEBRunB->GetEntries() << " entries;" 
+          << std::endl;
+
+
+
+ TProfile2D* CrysMeanDiffEBRunAClone = (TProfile2D*)CrysMeanTimeDistEBRunA->Clone("CrysMeanTimeDiffEBRun1");
+ // TProfile2D* CrysmeanDiffEEplusRunAClone = (TProfile2D*)CrysMeanTimeDistEEPlusRunA->Clone("CrysMeanTimeDiffEEPlusRun1");
+ //TProfile2D* CrysmeanDiffEEMinusRunAClone = (TProfile2D*)CrysMeanTimeDistEEMinusRunA->Clone("CrysMeanTimeDiffEEMinusRun1");
+
+ //subtract bin-by-bin
+ CrysMeanDiffEBRunAClone->Add(CrysMeanTimeDistEBRunB, -1);
+ // CrysmeanDiffEEplusRunAClone ->Add(CrysMeanTimeDistEEPlusRunB, -1);
+ // CrysmeanDiffEEMinusRunAClone->Add(CrysMeanTimeDistEEMinusRunB, -1);
+
+
+ // Histogram to Hold Diffs
+ TProfile2D* XtalMeanTimeShiftEB = new TProfile2D("XtalMeanTimeShiftEB","Crystal Mean Time Shift EB [BX]", 360, -10.0, 350.0, 171, -85, 85);
+ XtalMeanTimeShiftEB->GetYaxis()->SetTitle("i#eta");
+ XtalMeanTimeShiftEB->GetXaxis()->SetTitle("i#phi");
+
+
+
+ // What us the size of the Hist Holding the difference?
+ int numBinsEBX = CrysMeanTimeDistEBRunA->GetNbinsX();
+ int numBinsEBY = CrysMeanTimeDistEBRunA->GetNbinsY();
+int numBinsEBZ = CrysMeanTimeDistEBRunA->GetNbinsZ();
+ cout << " Number X bins EB =" << numBinsEBX << "Number  Y Bins EB =" << numBinsEBY  << " Number EB Z bins ="<<numBinsEBZ << endl;
+
+ for(int ii = 1; ii <=numBinsEBX; ii++)
+   {
+     for( int jj = 1; jj <= numBinsEBY; jj++)
+       {
+         for( int kk = 1; kk <= numBinsEBZ; kk++)
+	   {
+            
+	     XtalMeanTimeShiftEB->Fill( CrysMeanDiffEBRunAClone->GetBinContent(ii,jj,kk));
+
+	     cout << "Filling The Bins"<< endl;
+	   }
+       }
+   }
+
+
+ // Now Draw Hists
+ TCanvas* EBCanvasA = new TCanvas("EBCanvasA","EBCanvasA");
+ EBCanvasA->cd();CrysMeanTimeDistEBRunA->Draw("colz");
+ TCanvas* EBCanvasB = new TCanvas("EBCanvasB","EBCanvasB");
+ EBCanvasB->cd(); CrysMeanTimeDistEBRunB->Draw("colz");
+ TCanvas* EBDiffCanvas = new TCanvas("EBDiffCanvas","EBDiffCanvas");
+ EBDiffCanvas->cd(); CrysMeanDiffEBRunAClone->SetTitle("Crystals Time Shift EB [BX]"); CrysMeanDiffEBRunAClone->Draw("colz");
+
+ TCanvas* EBTimeShift = new TCanvas("EBTimeShift","EBTimingShift");
+ EBTimeShift->cd();   XtalMeanTimeShiftEB->Draw("colz");
+
+
+}

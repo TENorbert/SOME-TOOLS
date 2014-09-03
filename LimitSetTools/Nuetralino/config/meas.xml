@@ -1,0 +1,17 @@
+<!--
+This xml file created automatically on: 
+2013-3-22
+-->
+<!DOCTYPE Combination  SYSTEM 'HistFactorySchema.dtd'>
+
+<Combination OutputFilePrefix="./results/DPhoton" >
+
+
+  <Input>./xmlFromPy/meas_channel.xml</Input>
+
+  <Measurement Name="meas" Lumi="1" LumiRelErr="0.1" BinLow="0" BinHigh="1" ExportOnly="True"  >
+    <POI>SigXsecOverSM </POI>  
+    <ParamSetting Const="True">Lumi alpha_syst1 </ParamSetting>
+  </Measurement> 
+
+</Combination>

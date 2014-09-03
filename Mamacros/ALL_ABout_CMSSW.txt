@@ -1,0 +1,52 @@
+  CMSSW USEFUL COMMANDS
+
+To set up  the CMSSSW environment:
+$ source /local/cms/sw/cmsset_default.(c)sh
+cd CMSSW _X_Y_Z
+First step to  check what versions are available using:
+ scramv1 list
+
+choose a  suitable version and INSTALL It in Your Home Using
+scramv1 project CMSSW CMSSW_X_Y_Z
+
+Available data types in the python configuration file
+
+Keyword 	C++ type 	Example
+bool 	          bool 	    b = cms.bool(False)
+int32 	          int 	    i = cms.int32(-234)
+uint32 	        unsigned 	i = cms.uint32(2112)
+vint32 	      std::vector<int> 	    v = cms.vint32( 1, -3, 5 )
+vuint32       std::vector<unsigned> 	v =cms.vuint32( 0, 1, 0 )
+int64 	        boost::int64_t 	      i = cms.int64(-234)
+uint64 	        boost::uint64_t 	      i = cms.uint64(2112)
+vint64 	    std::vector<boost::int64_t> 	v = cms.vint64( 1, -3, 5 )
+vuint64 	std::vector<boost::uint64_t> 	v =cms.vuint64( 0, 1, 0 )
+string 	         std::string 	s = cms.string("spaces are allowed")
+                                                      s = cms.string('single quotes allowed')
+vstring 	std::vector<std::string> 	  v = cms.vstring( 'thing one', "thing two")
+double 	double 	d = cms.double(-3.43e-34)
+vdouble 	std::vector<double> 	           v = cms.vdouble(1.2, 3, 4.5e-100, -inf)
+FileInPath 	edm::FileInPath 	          particleFile = cms.FileInPath("SimGeneral/HepPDTESSource/data/particle.tbl")
+InputTag 	edm::InputTag 	                   inputTag = cms.InputTag("simrec","jets")
+VInputTag 	std::vector<edm::InputTag> 	   jetTags = cms.VInputTag( cms.InputTag("simrec","jets"),                                                                           cms.InputTag("cone5CaloJets"))
+EventID 	edm::EventID 	                     e = cms.EventID(1,1)
+CmsRange 	None yet 	                     r = cms.CmsRange(1,1,5,999)
+VCmsRange 	std::vector<None yet> 	            ranges = cms.VCmsRange( (1,1,5,0), (8,1,9,10),) (0 corresponds to MAX)
+  PSet 	         edm::ParameterSet 	see below
+VPSet 	         std::vector<edm::ParameterSet> 	see below
+ 
+
+Project 2nd November 2010:
+
+ Data from  here:
+  /local/cms/user/jmmans/HF_electrongun_*100
+
+Moving from one directory to another:
+cd ../../
+check info about CPU:
+
+cat /proc/cpuinfo
+
+
+
+
