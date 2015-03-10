@@ -1,0 +1,59 @@
+
+## How to create Own CMSSW Branch and add packages Command ###
+
+ ## see : https://twiki.cern.ch/twiki/bin/view/Sandbox/ASmallGitCMSSWTutorial
+
+ ## Steps: Using ECAL Timing Added to Local CMSSW Branch
+
+ cmsrel CMSSW_7_3_2_patch5
+ cd CMSSW_7_3_2_patch5
+ cmsenv
+
+ git cms-addpkg FWCore/Version
+ 
+ ## Now Add your choice Packages( even Official cmssw Packages you may like to modify and keep in your own branch)
+
+ git cms-addpkg Subsystem/Package
+ eg 
+ git cms-addpkg CalibCalorimetry/EcalTiming
+
+ ## But since we do not have this is any official cmsrelease we do:
+ git clone git@github.com:TENorbert/CalibCalorimetry.git  ## Package for timing Calibration and HardWare Time Adjustment
+ git clone git@github.com:TENorbert/ECALTime.git   ## Package for z->22 and Amplitude dependence studies
+
+
+  ## Now create your own CMSSW Branch
+
+  git checkout -b CMSSW_7_3_2_patch5-ECALTiming2015
+
+  ## Check the current branch in your local repository
+  git branch
+
+  ## Now you can make your modifications on all the new packages
+
+  ## Check you git branch status
+  git status
+
+  ### Now add all your new/editted branches
+  git add --all ./
+
+  ## commit ur changes
+  git commit -m "Things of my own cmssw branch"
+
+  ## To Push your branch into your user area of git, First go and fork cmssw software here: 
+     https://github.com/cms-sw/cmssw/fork 
+
+  ## Now push your cmssw release
+
+  git push my-cmssw <ur branchName>
+  eg 
+  git push my-cmssw CMSSW_7_3_2_patch5-ECALTiming2015
+
+ ## And thats it!!! You can now keep changing things and just committing to your branch.
+
+ ## if you will want to merge your branch back to the official CMSSW Branch
+ see commands here: http://cms-sw.github.io/tutorial.html
+ http://cms-sw.github.io/tutorial-merge-usercode-repository-in-cmssw.html
+ ## for more help on git see here: https://github.com/GarageGames/Torque2D/wiki/Cloning-the-repo-and-working-with-Git
+
+ ## Now Enjoy Your New found Git -cmssw power!!!
