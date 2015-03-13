@@ -1,0 +1,31 @@
+
+## Say your compiler does not like the fact that some variables in your code are defined
+## but on used. do:
+
+sed -i.bak 's/-Werror=unused-variable//' ../config/toolbox/slc5_amd64_gcc462/tools/selected/gcc-cxxcompiler.xml
+sed -i.bak 's/-Werror=unused-but-set-variable//' ../config/toolbox/slc5_amd64_gcc462/tools/selected/gcc-cxxcompiler.xml
+
+## If you run into error:
+----- Begin Fatal Exception 11-Mar-2015 22:39:18 CET-----------------------
+An exception of category 'NoRecordFromDependentRecord' occurred while
+   [0] Processing run: 198939
+      [1] Calling beginRun for unscheduled module EcalTimeTreeMaker/'ecalTimeTree'
+         [2] Using EventSetup component EcalLaserCorrectionService/'' to make data EcalLaserDbService/'' in record EcalLaserDbRecord
+	 Exception Message:
+	 No "EcalLinearCorrectionsRcd" record found in the dependent record "EcalLaserDbRecord".
+	  Please add an ESSource or ESProducer that delivers the "EcalLinearCorrectionsRcd" record.
+	  ----- End Fatal Exception -------------------------------------------------
+
+## Go into your python config files like this:
+eg: ecalTimeMakeTree_AOD_cfg.py
+
+# and add the lines:
+process.GlobalTag.toGet = cms.VPSet(
+cms.PSet(record = cms.string('EcalLinearCorrectionsRcd'),
+tag = cms.string('EcalLinearCorrections_mc'),
+connect = cms.untracked.string('frontier://FrontierPrep/CMS_COND_ECAL')
+)
+)
+
+### I got it from here: https://github.com/Bicocca/EoverPNtuplizer/blob/master/Calibration/EcalCalibNtuple/python/simpleNtupleEoverP_cff.py
+# what does tag = cms.string('EcalLinearCorrections_mc') means? I have no freaking Idea! haha!! hey It works!! at least thats what matters now, I am happy!!
