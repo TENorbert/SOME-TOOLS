@@ -1,7 +1,7 @@
 ## Steps How to do ECALTiming Calibration
 
-##First Here are the steps:
-##Go here: https://zzz.physics.umn.edu/groups/cms/ecaltime
+## Future Steps will be placed here:
+## https://zzz.physics.umn.edu/groups/cms/ecaltime
 
  - scram list | grep CMSSW_7_0_3_patch2
  - setenv SCRAM_ARCH slc6_amd64_gcc481 or export SCRAM_ARCH=slc6_amd64_gcc481 
