@@ -39,6 +39,6 @@
   
   - cmsRun ecalCreateTimeCalibrations_cfg.py
  
-## The resulting Calibration Constants are .xml files while
-## the histograms are in the root files.
+## The resulting Calibration Constants are .xml files "EcalTimeCalibConstants.xml" and Errors in "EcalTimeCalibErrors.xml" and the overal Offset is "EcalTimeOffset.xml"  while
+## the histograms are in the root files "ecalCreateTimeCalibs.root".
 ## Please take not of the Different classes it is calling at every given stage.
