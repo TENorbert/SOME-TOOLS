@@ -1,0 +1,44 @@
+## Steps How to do ECALTiming Calibration
+
+##First Here are the steps:
+##Go here: https://zzz.physics.umn.edu/groups/cms/ecaltime
+
+ - scram list | grep CMSSW_7_0_3_patch2
+ - setenv SCRAM_ARCH slc6_amd64_gcc481 or export SCRAM_ARCH=slc6_amd64_gcc481 
+ - scramv1 project -n CMSSW_7_0_3_patch2_TimeCalib2015 CMSSW CMSSW_7_0_3_patch2
+ - cd CMSSW_7_0_3_patch2_TimeCalib2015/src
+ - cmsenv 
+ - eval `scramv1 runtime -csh` or eval `scramv1 runtime -sh`
+
+## Now get the Main Timing calibration package
+
+  - git clone git@github.com:TENorbert/CalibCalorimetry.git
+
+  - scram b -j9
+
+  - cd CalibCalorimetry/EcalTiming/python
+
+ ## Now Make Ntuples by running the command after giving it a prompt-RECO/RECO/AOD input file:
+
+  - cmsRun ecalTimeMakeTree_AOD_cfg.py
+
+## The result is the Ntuple root file called: 
+   EcalTimeTree_999999.root
+  
+## This file can now be Used to Make and Validate Calibration files
+## The files showing the calibration constants are .xml files
+## while the files showing the Result of the calibration with histograms
+## are also root files.
+
+## Creating & Validating Timing Calibration constants is done by the commands:
+## after giving the Ntuple "EcalTimeTree_999999.root" as input file
+
+  - cmsRun ecalCreateTimeCalibsAndValidate_cfg.py
+
+## If you just want to create TimeCalibration Constants You do:
+  
+  - cmsRun ecalCreateTimeCalibrations_cfg.py
+ 
+## The resulting Calibration Constants are .xml files while
+## the histograms are in the root files.
+## Please take not of the Different classes it is calling at every given stage.
